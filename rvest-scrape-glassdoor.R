@@ -1,38 +1,5 @@
-README
-================
-Maria Guideng
+# Reference: https://www.glassdoor.com/Reviews/Tesla-Reviews-E43129.htm
 
-scrape-glassdoor
-================
-
-About
------
-
-Scrape *Glassdoor.com* for company reviews. Prep text data for text analytics.
-
-Demo
-----
-
-Take Tesla for example. The url to scrape will be:
-<https://www.glassdoor.com/Reviews/Tesla-Reviews-E43129.htm>
-
-Here's a screen shot of the text to extract:
-
-![gd-tesla](https://raw.githubusercontent.com/mguideng/rvest-scrape-glassdoor/master/images/gd-tesla.PNG)
-
-**Web scraper function**
-
-Extract company reviews for the following:
-
--   Total reviews - by full & part-time workers only
--   Date - of when review was posted
--   Summary - e.g., "I have none"
--   Title - e.g., "Former Employee - Class A Truck Driver in Oakland, CA"
--   Pros - upsides of the workplace
--   Cons - downsides of the workplace
--   Helpful - number marked as being helpful, if any
-
-``` r
 #### SCRAPE ####
 # Packages
 library(rvest)    #scrape
@@ -70,19 +37,7 @@ df <- map_df(1:maxresults, function(i) {
              rev.helpf = html_text(html_nodes(pg, ".tight")),
              stringsAsFactors=F)
 })
-```
 
-**RegEx**
-
-Use regular expressions to clean and extract additonal variables:
-
--   Reviewer ID (1 to N reviewers by date, sorted from first to last)
--   Year (from Date)
--   Location (e.g., Oakland, CA)
--   Position (e.g., Class A Truck Driver)
--   Status (current or former employee)
-
-``` r
 #### REGEX ####
 # Packages
 library(stringr)    #pattern matching functions
@@ -106,25 +61,7 @@ df$rev.loc <- ifelse(df$rev.loc %in%
 
 df$rev.stat <- str_extract(df$rev.title, ".* Employee -")
 df$rev.stat <- sub(" Employee -", "", df$rev.stat)
-```
 
-**Output**
-
-![df-tesla](https://raw.githubusercontent.com/mguideng/rvest-scrape-glassdoor/master/images/df-tesla.PNG)
-
-``` r
 #### EXPORT ####
-write.csv(df, "scrape-glassdoor-tesla.csv")  #to csv
-```
+write.csv(df, "scrape-glassdoor-tesla.csv")
 
-**Exploration ideas**
-
-Analyze the unstructured text, extract relevant information and transform it into useful insights:
-
--   Apply text analytics through Natural Language Processing (NLP) methods to show what is being written about the most.
--   Sentiment analysis by categorizing the text data to determine whether a review is considered positive, negative or neutral as a way of deriving the emotions and attitudes of employees.
--   I highly recommend the ["Text Mining with R" book](https://www.tidytextmining.com/) by Julia Silge and David Robinson for further ideas.
-
-**Project purpose**
-
-Develop R skills and leverage for another project: [text mining applied to Big 3 Consulting](https://mguideng.github.io/2018-07-16-text-mining-glassdoor-big3/).
