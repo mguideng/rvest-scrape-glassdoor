@@ -8,7 +8,7 @@ scrape-glassdoor
 About
 -----
 
-Scrape *Glassdoor.com* for company reviews. Prep text data for text analytics.
+Web scrape *Glassdoor.com* for company reviews in R (using rvest). Prep text data for text analytics.
 
 Demo
 ----
