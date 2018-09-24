@@ -20,17 +20,18 @@ totalreviews <- read_html(paste(baseurl, company, sort, sep="")) %>%
 
 maxresults <- as.integer(ceiling(totalreviews/10))    #10 reviews per page, round up to whole number
 
-# Scraping function to create dataframe of: Date, Summary, Title, Pros, Cons, Helpful
+# Scraping function to create dataframe of: Date, Summary, Rating, Title, Pros, Cons, Helpful
 df <- map_df(1:maxresults, function(i) {
   
-  Sys.sleep(5)    #be a polite bot. Will take ~13 mins to run with system sleeper.
+  Sys.sleep(sample(seq(1, 5, by=0.01), 1))    #be a polite bot. ~12 mins to run with this system sleeper
   
   cat("boom! ")   #progress indicator
   
-  pg <- read_html(paste(baseurl, company, "_P", i, sort, sep=""))   #pagination (_P1 to _P152)
+  pg <- read_html(paste(baseurl, company, "_P", i, sort, sep=""))   #pagination (_P1 to _P163)
   
   data.frame(rev.date = html_text(html_nodes(pg, ".date.subtle.small, .featuredFlag")),
              rev.sum = html_text(html_nodes(pg, ".reviewLink .summary:not([class*='hidden'])")),
+             rev.rating = html_attr(html_nodes(pg, ".gdStars.gdRatings.sm .rating .value-title"), "title"),
              rev.title = html_text(html_nodes(pg, "#ReviewsFeed .hideHH")),
              rev.pros = html_text(html_nodes(pg, "#ReviewsFeed .pros:not([class*='hidden'])")),
              rev.cons = html_text(html_nodes(pg, "#ReviewsFeed .cons:not([class*='hidden'])")),
@@ -63,5 +64,5 @@ df$rev.stat <- str_extract(df$rev.title, ".* Employee -")
 df$rev.stat <- sub(" Employee -", "", df$rev.stat)
 
 #### EXPORT ####
-write.csv(df, "scrape-glassdoor-tesla.csv")
+write.csv(df, "rvest-scrape-glassdoor-output.csv")  #to csv
 

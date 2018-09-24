@@ -2,13 +2,13 @@ README
 ================
 Maria Guideng
 
-scrape-glassdoor
-================
+rvest-scrape-glassdoor
+======================
 
 About
 -----
 
-Web scrape *Glassdoor.com* for company reviews in R (using rvest). Prep text data for text analytics.
+Scrape *Glassdoor.com* for company reviews. Prep text data for text analytics.
 
 Demo
 ----
@@ -26,8 +26,9 @@ Extract company reviews for the following:
 
 -   Total reviews - by full & part-time workers only
 -   Date - of when review was posted
--   Summary - e.g., "I have none"
--   Title - e.g., "Former Employee - Class A Truck Driver in Oakland, CA"
+-   Summary - e.g., "Amazing Tesla"
+-   Rating - star rating between 1.0 and 5.0
+-   Title - e.g., "Current Employee - Anonymous Employee"
 -   Pros - upsides of the workplace
 -   Cons - downsides of the workplace
 -   Helpful - number marked as being helpful, if any
@@ -53,17 +54,18 @@ totalreviews <- read_html(paste(baseurl, company, sort, sep="")) %>%
 
 maxresults <- as.integer(ceiling(totalreviews/10))    #10 reviews per page, round up to whole number
 
-# Scraping function to create dataframe of: Date, Summary, Title, Pros, Cons, Helpful
+# Scraping function to create dataframe of: Date, Summary, Rating, Title, Pros, Cons, Helpful
 df <- map_df(1:maxresults, function(i) {
   
-  Sys.sleep(5)    #be a polite bot. Will take ~13 mins to run with system sleeper.
+  Sys.sleep(sample(seq(1, 5, by=0.01), 1))    #be a polite bot. ~12 mins to run with this system sleeper
   
   cat("boom! ")   #progress indicator
   
-  pg <- read_html(paste(baseurl, company, "_P", i, sort, sep=""))   #pagination (_P1 to _P152)
+  pg <- read_html(paste(baseurl, company, "_P", i, sort, sep=""))   #pagination (_P1 to _P163)
   
   data.frame(rev.date = html_text(html_nodes(pg, ".date.subtle.small, .featuredFlag")),
              rev.sum = html_text(html_nodes(pg, ".reviewLink .summary:not([class*='hidden'])")),
+             rev.rating = html_attr(html_nodes(pg, ".gdStars.gdRatings.sm .rating .value-title"), "title"),
              rev.title = html_text(html_nodes(pg, "#ReviewsFeed .hideHH")),
              rev.pros = html_text(html_nodes(pg, "#ReviewsFeed .pros:not([class*='hidden'])")),
              rev.cons = html_text(html_nodes(pg, "#ReviewsFeed .cons:not([class*='hidden'])")),
@@ -78,8 +80,8 @@ Use regular expressions to clean and extract additonal variables:
 
 -   Reviewer ID (1 to N reviewers by date, sorted from first to last)
 -   Year (from Date)
--   Location (e.g., Oakland, CA)
--   Position (e.g., Class A Truck Driver)
+-   Location (e.g., Palo Alto, CA)
+-   Position (e.g., Project Manager)
 -   Status (current or former employee)
 
 ``` r
@@ -114,7 +116,7 @@ df$rev.stat <- sub(" Employee -", "", df$rev.stat)
 
 ``` r
 #### EXPORT ####
-write.csv(df, "scrape-glassdoor-tesla.csv")  #to csv
+write.csv(df, "rvest-scrape-glassdoor-output.csv")  #to csv
 ```
 
 **Exploration ideas**
@@ -127,4 +129,9 @@ Analyze the unstructured text, extract relevant information and transform it int
 
 **Project purpose**
 
-Develop R skills and leverage for another project: [text mining applied to Big 3 Consulting](https://mguideng.github.io/2018-07-16-text-mining-glassdoor-big3/).
+Develop R skills and leverage for another project: ["Text Mining Company Reviews (in R) - Case of MBB Consulting"](https://mguideng.github.io/2018-07-16-text-mining-glassdoor-big3/).
+
+**Notes**
+
+-   Write up of demo: ["It's Harvesting Season - Scraping Ripe Data"](https://mguideng.github.io/2018-08-01-rvesting-glassdoor/).
+-   Updated 9/23/2018 to add star "rating" field.
