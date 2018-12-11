@@ -5,6 +5,8 @@ Maria Guideng
 rvest-scrape-glassdoor
 ======================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/80w0hxtag5b1t55c?svg=true)](https://ci.appveyor.com/project/mguideng/rvest-scrape-glassdoor)
+
 About
 -----
 
