@@ -121,6 +121,8 @@ df$rev.stat <- sub(" Employee -", "", df$rev.stat)
 write.csv(df, "rvest-scrape-glassdoor-output.csv")  #to csv
 ```
 
+**If you found this project useful, feel free to star :star: it. Thanks for visiting :heart:.**
+
 **Exploration ideas**
 
 Analyze the unstructured text, extract relevant information and transform it into useful insights:
