@@ -7,6 +7,8 @@ rvest-scrape-glassdoor
 
 [![Build status](https://ci.appveyor.com/api/projects/status/80w0hxtag5b1t55c?svg=true)](https://ci.appveyor.com/project/mguideng/rvest-scrape-glassdoor)
 
+:sleeping: Oh hi. This repo is no longer maintained. Go [here](https://github.com/mguideng/gdscrapeR) for the `gdscrapeR` package instead. :ghost:
+
 About
 -----
 
@@ -121,19 +123,7 @@ df$rev.stat <- sub(" Employee -", "", df$rev.stat)
 write.csv(df, "rvest-scrape-glassdoor-output.csv")  #to csv
 ```
 
-**Exploration ideas**
-
-Analyze the unstructured text, extract relevant information and transform it into useful insights:
-
--   Apply text analytics through Natural Language Processing (NLP) methods to show what is being written about the most.
--   Sentiment analysis by categorizing the text data to determine whether a review is considered positive, negative or neutral as a way of deriving the emotions and attitudes of employees.
--   I highly recommend the ["Text Mining with R" book](https://www.tidytextmining.com/) by Julia Silge and David Robinson for further ideas.
-
-**Project purpose**
-
-Develop R skills and leverage for another project: ["Text Mining Company Reviews (in R) - Case of MBB Consulting"](https://mguideng.github.io/2018-07-16-text-mining-glassdoor-big3/).
-
 **Notes**
 
 -   Write up of demo: ["It's Harvesting Season - Scraping Ripe Data"](https://mguideng.github.io/2018-08-01-rvesting-glassdoor/).
--   Updated 9/23/2018 to add star "rating" field.
+-   Updated 9/23/2018 to add star "rating" field. Initial commit 8/1/2018.
