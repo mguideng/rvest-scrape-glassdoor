@@ -125,5 +125,5 @@ write.csv(df, "rvest-scrape-glassdoor-output.csv")  #to csv
 
 **Notes**
 
--   Write up of demo: ["It's Harvesting Season - Scraping Ripe Data"](https://mguideng.github.io/2018-08-01-rvesting-glassdoor/).
+-   Write up of demo: ["Scrape Glassdoor Company Reviews in R Using the gdscraper Package"](https://mguideng.github.io/2019-02-27-scrape-glassdoor-gdscrapeR/).
 -   Updated 9/23/2018 to add star "rating" field. Initial commit 8/1/2018.
